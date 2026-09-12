@@ -36,7 +36,8 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public List<UsuarioDto> listarActivos(){
+    public List<UsuarioDto> listarActivos()
+    {
         return usuarioRepository.listarActivos();
     }
 
@@ -48,4 +49,16 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario guardar =   usuarioRepository.save(usuario);
         return new UsuarioDto(guardar);
     }
+    @Override
+    public UsuarioDto actualizar(Long id, UsuarioDto usuarioDto){
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+        if (usuario.isEliminado()) {
+            throw new RuntimeException("No se puede editar el usuario porque ya está eliminado");
+        }
+    }usuario.setNombre(usuarioDto.getNombre());
+        usuario.setEmail(usuarioDto.getEmail());
+    Usuario actualizado = usuarioRepository.save(usuario);
+return new UsuarioDto(actualizado);
+}
 }
