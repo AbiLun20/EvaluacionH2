@@ -19,16 +19,16 @@ public class UsuarioServiceImpl implements UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Override
-    public UsuarioDto guardar (UsuarioDto usuarioDto){
+    public UsuarioDto guardar(UsuarioDto usuarioDto) {
         Usuario usuario = new Usuario();
         usuario.setNombre(usuarioDto.getNombre());
         usuario.setEmail(usuarioDto.getEmail());
-        Usuario guardar =   usuarioRepository.save(usuario);
+        Usuario guardar = usuarioRepository.save(usuario);
         return new UsuarioDto(guardar);
     }
 
     @Override
-    public List<UsuarioDto> listar(){
+    public List<UsuarioDto> listar() {
         return usuarioRepository.findAll()
                 .stream()
                 .map(u -> new UsuarioDto(u))
@@ -36,29 +36,29 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public List<UsuarioDto> listarActivos()
-    {
+    public List<UsuarioDto> listarActivos() {
         return usuarioRepository.listarActivos();
     }
 
     @Override
-    public UsuarioDto guardarAdmin (UsuarioDto usuarioDto){
+    public UsuarioDto guardarAdmin(UsuarioDto usuarioDto) {
         Usuario usuario = new UsuarioAdmin();
         usuario.setNombre(usuarioDto.getNombre());
         usuario.setEmail(usuarioDto.getEmail());
-        Usuario guardar =   usuarioRepository.save(usuario);
+        Usuario guardar = usuarioRepository.save(usuario);
         return new UsuarioDto(guardar);
     }
+
     @Override
-    public UsuarioDto actualizar(Long id, UsuarioDto usuarioDto){
+    public UsuarioDto actualizar(Long id, UsuarioDto usuarioDto) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
         if (usuario.isEliminado()) {
             throw new RuntimeException("No se puede editar el usuario porque ya está eliminado");
         }
-    }usuario.setNombre(usuarioDto.getNombre());
+        usuario.setNombre(usuarioDto.getNombre());
         usuario.setEmail(usuarioDto.getEmail());
-    Usuario actualizado = usuarioRepository.save(usuario);
-return new UsuarioDto(actualizado);
-}
+        Usuario actualizado = usuarioRepository.save(usuario);
+        return new UsuarioDto(actualizado);
+    }
 }
